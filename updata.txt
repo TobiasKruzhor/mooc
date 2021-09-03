@@ -1,4 +1,4 @@
-#
+# 新建
 echo "# mooc" >> README.md
 git init
 git add .
@@ -7,7 +7,16 @@ git branch -M main
 git remote add origin git@github.com:TobiasKruzhor/mooc.git
 git push -u origin main
 
-#
+#上传
 git remote add origin git@github.com:TobiasKruzhor/mooc.git
+git branch -M main
+git push -u origin main
+
+#上传，带提交信息
+#github自动上传
+
+git add .
+git commit -m "提交信息"
+git remote add origin git@github.com:TobiasKruzhor//mooc.git
 git branch -M main
 git push -u origin main
