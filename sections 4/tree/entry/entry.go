@@ -7,7 +7,7 @@ import (
 )
 
 type myTreeNode struct {
-	node *tree.TreeNode
+	node *tree.Node
 }
 
 func (myNode *myTreeNode) postOrder() {
@@ -15,23 +15,24 @@ func (myNode *myTreeNode) postOrder() {
 		return
 	}
 	left := myTreeNode{myNode.node.Left}
-	right := myTreeNode{myNode.node.Right}
 	left.postOrder()
+	right := myTreeNode{myNode.node.Right}
 	right.postOrder()
 	myNode.node.Print()
 }
 
 func main() {
-	root := tree.TreeNode{Value: 3}
-	root.Left = &tree.TreeNode{}
-	root.Right = &tree.TreeNode{Value: 5}
-	root.Right.Left = new(tree.TreeNode)
+	root := tree.Node{Value: 3}
+	root.Left = &tree.Node{}
+	root.Right = &tree.Node{Value: 5}
+	root.Right.Left = new(tree.Node)
 	root.Left.Right = tree.CreateNode(2)
-	root.Right.Left.SetValue(4)
 
+	root.Right.Left.SetValue(4)
 	root.Traverse()
 	fmt.Println()
 	myRoot := myTreeNode{&root}
 	myRoot.postOrder()
 	fmt.Println()
+
 }

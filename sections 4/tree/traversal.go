@@ -1,6 +1,6 @@
 package tree
 
-func (node *TreeNode) Traverse() {
+func (node *Node) Traverse() {
 	if node == nil {
 		return
 	}

@@ -16,7 +16,10 @@ git push -u origin main
 #github自动上传
 
 git add .
-git commit -m "fifth commit"
+git commit -m "sixth commit"
 git remote add origin git@github.com:TobiasKruzhor/mooc.git
 git branch -M main
 git push -u origin main
+
+#拉取
+git pull git@github.com:TobiasKruzhor/mooc.git
