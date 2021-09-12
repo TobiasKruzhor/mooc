@@ -3,11 +3,11 @@ package main
 import (
 	"fmt"
 
-	"imooc.com/TobiasKruzhor/sectionSix/learngo/testing"
+	"imooc.com/TobiasKruzhor/sectionSix/learngo/infra"
 )
 
 func getRetriever() retriever {
-	return testing.Retriever{}
+	return infra.Retriever{}
 }
 
 // Something that can "Get"
@@ -16,9 +16,6 @@ type retriever interface {
 }
 
 func main() {
-	var retriever testing.Retriever = getRetriever()
+	var retriever = getRetriever()
 	fmt.Println(retriever.Get("https://www.imooc.com"))
 }
-
-
-
