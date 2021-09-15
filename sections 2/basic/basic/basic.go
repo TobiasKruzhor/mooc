@@ -47,6 +47,13 @@ func triangle() {
 	fmt.Println(c)
 }
 
+func calcTriangle(a, b int) int {
+	var c int
+	c = int(math.Sqrt(float64(a*a+b*b)))
+	return c
+
+}
+
 func consts() {
 	const (
 		filename = "abc.txt"
