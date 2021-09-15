@@ -16,7 +16,7 @@ git push -u origin main
 #github自动上传
 
 git add .
-git commit -m "20210912 commit"
+git commit -m "20210915 commit"
 git remote add origin git@github.com:TobiasKruzhor/mooc.git
 git branch -M main
 git push -u origin main
