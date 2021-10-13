@@ -1,9 +1,6 @@
 package main
 
-import (
-	"fmt"
-	"time"
-)
+import "fmt"
 
 type worker struct {
 	in   chan int
@@ -17,13 +14,13 @@ func doWork(id int, c chan int, done chan bool) {
 	}
 }
 
-func createWorker(id int) chan int {
+func createWorker(id int) worker {
 	w := worker{
 		in:   make(chan int),
 		done: make(chan bool),
 	}
 	go doWork(id, w.in, w.done)
-	return c
+	return w
 }
 
 func chanDemo() {
@@ -35,6 +32,7 @@ func chanDemo() {
 		workers[i].in <- 'a' + i
 		<-workers[i].done
 	}
+
 	for i := 0; i < 10; i++ {
 		workers[i].in <- 'A' + i
 		<-workers[i].done
