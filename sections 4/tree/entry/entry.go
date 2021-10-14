@@ -37,9 +37,18 @@ func main() {
 	})
 	fmt.Println("Node conunt:", nodeCount)
 
-	fmt.Println()
-	myRoot := myTreeNode{&root}
-	myRoot.postOrder()
-	fmt.Println()
-
+	/*
+		fmt.Println()
+		myRoot := myTreeNode{&root}
+		myRoot.postOrder()
+		fmt.Println()
+	*/
+	c := root.TraverseWithChannel()
+	maxNode := 0
+	for node := range c {
+		if node.Value > maxNode {
+			maxNode = node.Value
+		}
+	}
+	fmt.Println("Max node Value:", maxNode)
 }

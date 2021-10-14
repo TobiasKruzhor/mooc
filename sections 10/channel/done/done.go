@@ -1,42 +1,49 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"sync"
+)
 
 type worker struct {
 	in   chan int
-	done chan bool
+	done func()
 }
 
-func doWork(id int, c chan int, done chan bool) {
-	for n := range c {
-		fmt.Printf("woker %d received %d \n", id, n)
-		done <- true
+func doWork(id int, w worker) {
+	for n := range w.in {
+		fmt.Printf("woker %d received %c \n", id, n)
+		w.done()
 	}
 }
 
-func createWorker(id int) worker {
+func createWorker(id int, wg *sync.WaitGroup) worker {
 	w := worker{
 		in:   make(chan int),
-		done: make(chan bool),
+		done:func(){
+			wg.Done()
+		},
 	}
-	go doWork(id, w.in, w.done)
+	go doWork(id, w)
 	return w
 }
 
 func chanDemo() {
+	var wg sync.WaitGroup
 	var workers [10]worker
 	for i := 0; i < 10; i++ {
-		workers[i] = createWorker(i)
-	}
-	for i := 0; i < 10; i++ {
-		workers[i].in <- 'a' + i
-		<-workers[i].done
+		workers[i] = createWorker(i,&wg)
 	}
 
-	for i := 0; i < 10; i++ {
-		workers[i].in <- 'A' + i
-		<-workers[i].done
+	wg.Add(20)
+	for i, worker := range workers {
+		worker.in <- 'a' + i
 	}
+
+	for i, worker := range workers {
+		worker.in <- 'A' + i
+	}
+
 }
 
 func main() {
