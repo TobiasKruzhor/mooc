@@ -6,13 +6,21 @@ import (
 	"time"
 )
 
-func msgGen(name string) chan string {
+func msgGen(name string, done chan struct{}) chan string {
 	c := make(chan string)
 	go func() {
 		i := 0
 		for {
-			time.Sleep(time.Duration(rand.Intn(2000)) * time.Millisecond)
-			c <- fmt.Sprintf("serverce %s: message %d", name, i)
+			select {
+			case <-time.After(time.Duration(rand.Intn(5000)) * time.Millisecond):
+				c <- fmt.Sprintf("serverce %s: message %d", name, i)
+			case <-done:
+				fmt.Println("cleaning up")
+				time.Sleep(2 * time.Second)
+				fmt.Println("cleaning done")
+				done <- struct{}{}
+				return
+			}
 			i++
 		}
 	}()
@@ -47,13 +55,34 @@ func fanInBySelect(c1, c2 chan string) chan string {
 	return c
 }
 
-func main() {
-	m1 := msgGen("service1")
-	m2 := msgGen("service2")
-	m3 := msgGen("service3")
-	m := fanIn(m1, m2, m3)
-	for {
-		fmt.Println(<-m)
+func nonBlockingWait(c chan string) (string, bool) {
+	select {
+	case m := <-c:
+		return m, true
+	default:
+		return "", false
 	}
+}
 
+func timeoutWait(c chan string, timeout time.Duration) (string, bool) {
+	select {
+	case m := <-c:
+		return m, true
+	case <-time.After(timeout):
+		return "", false
+	}
+}
+
+func main() {
+	done := make(chan struct{})
+	m1 := msgGen("service1", done)
+	for i := 0; i < 5; i++ {
+		if m, ok := timeoutWait(m1, 2*time.Second); ok {
+			fmt.Println(m)
+		} else {
+			fmt.Println("timeout")
+		}
+	}
+	done <- struct{}{}
+	<-done
 }
