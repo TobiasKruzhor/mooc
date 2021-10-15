@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	_ "net/http/pprof"
 	"os"
 
 	"imooc.com/TobiasKruzhor/sectionEight/errhanding/filelistingserver/filelisting"
