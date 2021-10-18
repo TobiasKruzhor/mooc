@@ -1,4 +1,4 @@
-module imooc.com/TobiasKruzhor/sectionFour
+module github..com/TobiasKruzhor/infoCrawler
 
 go 1.17
 

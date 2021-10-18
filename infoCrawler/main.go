@@ -13,7 +13,7 @@ import (
 )
 
 func main() {
-	resp, err := http.Get("http://localhost:8080/mock/www.zhenai.com/zhenghun")
+	resp, err := http.Get("http://kjt.shandong.gov.cn/col/col13360/index.html")
 	if err != nil {
 		panic(err)
 	}
