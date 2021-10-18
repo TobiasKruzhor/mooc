@@ -1,4 +1,4 @@
-module imooc.com/TobiasKruzhor/sectionFour
+module imooc.com/TobiasKruzhor/crawler
 
 go 1.17
 
